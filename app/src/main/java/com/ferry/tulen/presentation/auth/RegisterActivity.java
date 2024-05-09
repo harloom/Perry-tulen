@@ -75,6 +75,8 @@ public class RegisterActivity extends AppCompatActivity {
             Snackbar.make(view,"Konfirmasi password tidak sama!", Snackbar.LENGTH_LONG)
                     .setBackgroundTint(Color.RED)
                     .show();
+
+            animationView.setVisibility(View.GONE);
             return;
         }
 

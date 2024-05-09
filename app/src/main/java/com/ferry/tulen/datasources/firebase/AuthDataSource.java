@@ -183,11 +183,16 @@ public class AuthDataSource {
                         if (task.isSuccessful()) {
                             QuerySnapshot querySnapshot = task.getResult();
                             if (querySnapshot.isEmpty()) {
-                                resultListener.onSuccess(true);
+
+                                System.out.println("debug: email is Empty");
+                                resultListener.onSuccess(false);
                                 // Do something with the document
                             } else {
                                 // Handle  document found
-                                resultListener.onSuccess(false);
+                                System.out.println("debug: email is Not Empty");
+
+//                                true bearti ada gunakan
+                                resultListener.onSuccess(true);
                             }
                         } else {
                             resultListener.onError(new Throwable("Terjadi kesalahan, coba lagi"));
