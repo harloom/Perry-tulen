@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1015278067576",
+    "project_id": "tulen-new",
+    "storage_bucket": "tulen-new.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1015278067576:android:0771f62612442e7055328d",
+        "android_client_info": {
+          "package_name": "com.ferry.tulen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpfDc1pVUsgNQeHeVqEg6UKWUU0kKY2ow"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

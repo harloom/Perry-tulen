@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".presentation.auth.RegisterActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:context=".login_register.LoginAct">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bgawal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginStart="16dp"
+                        android:gravity="center"
+                        android:text="Yuk \n Daftar Dulu"
+                        android:textColor="#FFFFFF"
+                        android:textSize="30sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="230dp"
+                        android:layout_height="200dp"
+                        android:contentDescription="@string/register"
+                        android:src="@drawable/loginhead"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView3"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="30dp"
+                card_view:cardCornerRadius="20dp"
+                card_view:cardElevation="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtfield_email"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Masukan Email"
+                        android:paddingHorizontal="20dp"
+                        android:paddingTop="20dp"
+                        card_view:boxCornerRadiusBottomEnd="10dp"
+                        card_view:boxCornerRadiusBottomStart="10dp"
+                        card_view:boxCornerRadiusTopEnd="10dp"
+                        card_view:boxCornerRadiusTopStart="10dp"
+                        card_view:errorEnabled="true">
+
+                        <!--this is the actual edit text which takes the input-->
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txt_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtfield_password"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Masukan Password"
+                        android:paddingHorizontal="20dp"
+                        app:passwordToggleEnabled="true"
+                        card_view:boxCornerRadiusBottomEnd="10dp"
+                        card_view:boxCornerRadiusBottomStart="10dp"
+                        card_view:boxCornerRadiusTopEnd="10dp"
+                        card_view:boxCornerRadiusTopStart="10dp"
+                        card_view:errorEnabled="true">
+
+                        <!--this is the actual edit text which takes the input-->
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txt_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtfield_password2"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Masukan Kembali Password"
+                        android:paddingHorizontal="20dp"
+                        app:passwordToggleEnabled="true"
+                        card_view:boxCornerRadiusBottomEnd="10dp"
+                        card_view:boxCornerRadiusBottomStart="10dp"
+                        card_view:boxCornerRadiusTopEnd="10dp"
+                        card_view:boxCornerRadiusTopStart="10dp"
+                        card_view:errorEnabled="true">
+
+                        <!--this is the actual edit text which takes the input-->
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txt_password2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword" />
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--sample button to submit entered data inside from edit text-->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_daftar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="20dp"
+                        android:text="daftar"
+                        app:cornerRadius="40dp" />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/textlupa"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="75dp"
+                            android:layout_marginBottom="30dp"
+                            android:text="Sudah Punya Akun? " />
+
+                        <TextView
+                            android:id="@+id/txt_login"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/textlupa"
+                            android:text="Login Sini"
+                            android:textColor="@color/colorPrimary" />
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loadingAnimation"
+        android:background="@drawable/circle_bg"
+        android:layout_width="150dp"
+        android:visibility="gone"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading" />
+</androidx.constraintlayout.widget.ConstraintLayout>
