@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.airbnb.lottie.LottieAnimationView;
 import com.ferry.tulen.R;
 import com.ferry.tulen.UtilsKey;
+import com.ferry.tulen.datasources.SharedPreferences.SharedPreferenceHelper;
 import com.ferry.tulen.datasources.firebase.AuthDataSource;
 import com.ferry.tulen.datasources.listener.ResultListener;
 import com.ferry.tulen.datasources.models.User;
@@ -71,21 +72,21 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void login(int id){
+    private void login(int typeLogin){
         AuthDataSource dataSource = AuthDataSource.getInstance(FirebaseFirestore.getInstance());
 
 
        LottieAnimationView animationView =  findViewById(R.id.loadingAnimation);
         animationView.setVisibility(View.VISIBLE);
-        dataSource.login(id, emailView.getText().toString(), passwordView.getText().toString(), new ResultListener() {
+        dataSource.login(typeLogin, emailView.getText().toString(), passwordView.getText().toString(), new ResultListener() {
             @Override
             public void onSuccess(Object result) {
                 if(result instanceof WorkMan){
                     System.out.println("debug: Success Login WorkMan " + result.toString());
-                    saveSessionWorkman((WorkMan) result);
+                    saveSessionWorkman((WorkMan) result,typeLogin);
                 }else if(result instanceof User){
                     System.out.println("debug: Success Login User " + result.toString());
-                    saveSessionUser((User) result);
+                    saveSessionUser((User) result,typeLogin);
 
                 }else{
                     //// not allow
@@ -106,13 +107,43 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void saveSessionUser(User user){
+    private void saveSessionUser(User user,int typeLogin){
+
+
+        SharedPreferenceHelper sharedPreferenceHelper = new SharedPreferenceHelper(this);
+        sharedPreferenceHelper.saveString(SharedPreferenceHelper.KEY_TYPE_LOGIN, Integer.toString(typeLogin));
+        sharedPreferenceHelper.saveString(SharedPreferenceHelper.KEY_ID_USER, user.getId());
+
+
+        /// validasi if belum di set
+        if(user.getFullName().isEmpty() || user.getAddress().isEmpty() || user.getJob().isEmpty()){
+            Intent intent = new Intent(LoginActivity.this, SetUserActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            return;
+        }
+
+
+
         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 
-    private void saveSessionWorkman(WorkMan workMan){
+    private void saveSessionWorkman(WorkMan workMan, int typeLogin){
+        SharedPreferenceHelper sharedPreferenceHelper = new SharedPreferenceHelper(this);
+        sharedPreferenceHelper.saveString(SharedPreferenceHelper.KEY_TYPE_LOGIN, Integer.toString(typeLogin));
+        sharedPreferenceHelper.saveString(SharedPreferenceHelper.KEY_ID_USER, workMan.getId());
+
+        /// validasi if belum di set
+        if(workMan.getFullName().isEmpty() || workMan.getAddress().isEmpty() || workMan.getJob().isEmpty()){
+            Intent intent = new Intent(LoginActivity.this, SetWorkmanActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            return;
+        }
+
+
         Intent intent = new Intent(LoginActivity.this, WorkManHomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

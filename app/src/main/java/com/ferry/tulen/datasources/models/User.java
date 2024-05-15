@@ -5,16 +5,16 @@ import java.util.Map;
 
 public class User {
 
-    private final String id;
+    private  String id;
 
-    private final String email;
+    private  String email;
 
-    private final String fullName;
-    private final String address;
+    private  String fullName;
+    private  String address;
 
-    private final String phoneNumber;
+    private  String phoneNumber;
 
-    private final String job;
+    private  String job;
 
     public String getId() {
         return id;
@@ -24,21 +24,44 @@ public class User {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getFullName() {
         return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getAddress() {
         return address;
     }
 
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getJob() {
         return job;
     }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+
+
 
     public User(String id, String email, String fullName, String address, String phoneNumber, String job) {
         this.id = id;
@@ -60,6 +83,17 @@ public class User {
         return map;
     }
 
+    public Map<String, Object> toUpdateMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("fullName", fullName);
+        map.put("address", address);
+        map.put("phoneNumber", phoneNumber);
+        map.put("job", job);
+        return map;
+    }
+
+
     public static User fromMap(Map<String, Object> map) {
         if (map == null) {
             return null;
@@ -71,7 +105,7 @@ public class User {
         String phoneNumber = (String) map.get("phoneNumber");
         String job = (String) map.get("job");
         return  new User(
-                id,fullName,email,address,phoneNumber,job
+                id,email,fullName,address,phoneNumber,job
         );
 
     }

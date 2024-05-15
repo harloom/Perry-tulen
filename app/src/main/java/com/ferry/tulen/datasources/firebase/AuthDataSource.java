@@ -1,7 +1,10 @@
 package com.ferry.tulen.datasources.firebase;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 
+import com.ferry.tulen.datasources.SharedPreferences.SharedPreferenceHelper;
 import com.ferry.tulen.datasources.listener.ResultListener;
 import com.ferry.tulen.datasources.models.GuardUser;
 import com.ferry.tulen.datasources.models.GuardWorkMan;
@@ -35,6 +38,17 @@ public class AuthDataSource {
             instance = new AuthDataSource(db);
         }
         return instance;
+    }
+
+    public  void logout(Context context, ResultListener<Boolean> resultListener){
+        try {
+            SharedPreferenceHelper sharedPreferenceHelper = new SharedPreferenceHelper(context);
+            sharedPreferenceHelper.remove(SharedPreferenceHelper.KEY_ID_USER);
+            sharedPreferenceHelper.remove(SharedPreferenceHelper.KEY_TYPE_LOGIN);
+            resultListener.onSuccess(true);
+        }catch (Exception e){
+            resultListener.onError(e);
+        }
     }
 
     public void registerUser(String email, String password, ResultListener<String> resultListener) {
@@ -92,7 +106,7 @@ public class AuthDataSource {
                 WorkMan user = new WorkMan(generateId, email, "", "", "", "");
                 GuardWorkMan guardWorkMan = new GuardWorkMan(user.getId(), password);
                 batch.set(db.collection(CollectionName.WORK_MAN).document(), user.toMap());
-                batch.set(db.collection(CollectionName.GUARD_USER).document(), guardWorkMan.toMap());
+                batch.set(db.collection(CollectionName.GUARD_WORK_MAN).document(), guardWorkMan.toMap());
 
                 batch.commit().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -131,7 +145,6 @@ public class AuthDataSource {
                                     DocumentSnapshot document = querySnapshot.getDocuments().get(0);
                                     User user = User.fromMap(document.getData());
                                     comparePasswordUser(user, password, resultListener);
-                                    // Do something with the document
                                 } else {
                                     // Handle no document found
                                     resultListener.onError(new Throwable("Email/password salah"));

@@ -5,17 +5,40 @@ import java.util.Map;
 
 public class WorkMan {
 
-    private final String id;
+    private  String id;
 
-    private final String email;
+    private  String email;
 
-    private final String fullName;
-    private final String address;
+    private  String fullName;
+    private  String address;
 
-    private final String phoneNumber;
+    private  String phoneNumber;
 
-    private final String job;
+    private  String job;
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
 
     public String getId() {
         return id;
@@ -55,6 +78,16 @@ public class WorkMan {
         map.put("id", id);
         map.put("fullName", fullName);
         map.put("email", email);
+        map.put("address", address);
+        map.put("phoneNumber", phoneNumber);
+        map.put("job", job);
+        return map;
+    }
+
+    public Map<String, Object> toMapUpdate() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("fullName", fullName);
         map.put("address", address);
         map.put("phoneNumber", phoneNumber);
         map.put("job", job);

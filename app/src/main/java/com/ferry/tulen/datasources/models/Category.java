@@ -8,19 +8,31 @@ public class Category {
 
     private final String name;
 
-    private final String base64Image;
+    private final String fileStorage;
 
-    public Category(String id, String name, String base64Image) {
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getFileStorage() {
+        return fileStorage;
+    }
+
+    public Category(String id, String name, String fileStorage) {
         this.id = id;
         this.name = name;
-        this.base64Image = base64Image;
+        this.fileStorage = fileStorage;
     }
 
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
         map.put("id", id);
         map.put("name", name);
-        map.put("base64Image", base64Image);
+        map.put("fileStorage", fileStorage);
         return map;
     }
 
@@ -31,19 +43,15 @@ public class Category {
 
         String id = (String) map.get("id");
         String name = (String) map.get("name");
-        String base64Image = (String) map.get("base64Image");
+        String fileStorage = (String) map.get("fileStorage");
         return new Category(
-                id,name,base64Image
+                id,name,fileStorage
         );
 
     }
 
     @Override
     public String toString() {
-        return "Category{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", base64Image='" + base64Image + '\'' +
-                '}';
+        return  name;
     }
 }

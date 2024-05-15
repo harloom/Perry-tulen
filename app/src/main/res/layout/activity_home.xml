@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".presentation.home.HomeActivity">
@@ -26,13 +27,14 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/titleHome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerInParent="true"
                     android:layout_marginStart="40dp"
                     android:gravity="center"
-                    android:text="Selamat Datang \n Mang Pery"
+                    android:text="Selamat Datang"
                     android:textColor="#FFFFFF"
                     android:textSize="30dp" />
 
@@ -43,6 +45,8 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="-213dp"
                     android:src="@drawable/mainmenu" />
+
+
 
 
             </RelativeLayout>
@@ -87,82 +91,18 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>>
-        <RelativeLayout
-            android:id="@+id/kategori_menu"
-            android:layout_width="wrap_content"
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/kategori_menu_rc"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:gravity="center"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:clickable="true"
-                app:cardCornerRadius="30dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/idgambar"
-                        android:layout_width="160dp"
-                        android:layout_height="120dp"
-                        android:src="@drawable/wza" />
-
-                    <TextView
-                        android:id="@+id/idnamajob"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="10dp"
-                        android:gravity="center"
-                        android:text="Nama Pekerjaan"
-                        android:textColor="#FFFF"
-                        android:textSize="15dp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:layout_toRightOf="@+id/card1"
-                android:clickable="true"
-                app:cardCornerRadius="30dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/idgambar1"
-                        android:layout_width="160dp"
-                        android:layout_height="120dp"
-                        android:src="@drawable/wza" />
-
-                    <TextView
-                        android:id="@+id/idnamajob1"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="10dp"
-                        android:gravity="center"
-                        android:text="Nama Pekerjaan"
-                        android:textColor="#FFFF"
-                        android:textSize="15dp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </RelativeLayout>
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
 
         <LinearLayout
@@ -172,7 +112,7 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/kategori_menu">
+            app:layout_constraintTop_toBottomOf="@+id/kategori_menu_rc">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -196,185 +136,34 @@
 
             </RelativeLayout>
 
-            <ScrollView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/workman_top_rc"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginBottom="5dp"
-                        android:elevation="10dp"
-                        app:cardCornerRadius="10dp">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/avatar"
-                                android:layout_width="100dp"
-                                android:layout_height="97dp"
-                                android:padding="10dp"
-                                android:src="@drawable/avatar" />
-
-                            <TextView
-                                android:id="@+id/namatukang"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="15dp"
-                                android:layout_toEndOf="@+id/avatar"
-                                android:text="Nama Tukang"
-                                android:textSize="18dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/namatukang"
-                                android:layout_toEndOf="@+id/avatar"
-                                android:text="Tukang Bangunan" />
-                        </RelativeLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginBottom="5dp"
-                        android:elevation="10dp"
-                        app:cardCornerRadius="10dp">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/avatar2"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:padding="10dp"
-                                android:src="@drawable/avatar" />
-
-                            <TextView
-                                android:id="@+id/namatukang2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="15dp"
-                                android:layout_toEndOf="@+id/avatar2"
-                                android:text="Nama Tukang"
-                                android:textSize="18dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/namatukang2"
-                                android:layout_toEndOf="@+id/avatar2"
-                                android:text="Tukang Bangunan" />
-                        </RelativeLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginBottom="5dp"
-                        android:elevation="10dp"
-                        app:cardCornerRadius="10dp">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/avatar3"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:padding="10dp"
-                                android:src="@drawable/avatar" />
-
-                            <TextView
-                                android:id="@+id/namatukang3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="15dp"
-                                android:layout_toEndOf="@+id/avatar3"
-                                android:text="Nama Tukang"
-                                android:textSize="18dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/namatukang3"
-                                android:layout_toEndOf="@+id/avatar3"
-                                android:text="Tukang Bangunan" />
-                        </RelativeLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginBottom="5dp"
-                        android:elevation="10dp"
-                        app:cardCornerRadius="10dp">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/avatar1"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:padding="10dp"
-                                android:src="@drawable/avatar" />
-
-                            <TextView
-                                android:id="@+id/namatukang1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="15dp"
-                                android:layout_toEndOf="@+id/avatar1"
-                                android:text="Nama Tukang"
-                                android:textSize="18dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/namatukang1"
-                                android:layout_toEndOf="@+id/avatar1"
-                                android:text="Tukang Bangunan" />
-                        </RelativeLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                </LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:orientation="vertical" />
 
 
-            </ScrollView>
 
 
         </LinearLayout>
 
-
-
-
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogout"
+            android:layout_alignParentEnd="true"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:iconPadding="0dp"
+            app:iconTint="@color/white"
+            app:icon="@drawable/baseline_exit_to_app_24"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
