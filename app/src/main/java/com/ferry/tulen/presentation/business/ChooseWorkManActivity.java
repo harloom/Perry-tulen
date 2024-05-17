@@ -1,7 +1,10 @@
 package com.ferry.tulen.presentation.business;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,13 +12,23 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ferry.tulen.R;
+import com.ferry.tulen.datasources.firebase.WorkManDataSource;
+import com.ferry.tulen.datasources.listener.ResultListener;
+import com.ferry.tulen.datasources.models.WorkMan;
+import com.ferry.tulen.presentation.home.HomeActivity;
+import com.ferry.tulen.presentation.home.rcv.WorkManRecyclerViewAdapter;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.List;
 import java.util.Objects;
 
 public class ChooseWorkManActivity extends AppCompatActivity {
-
+    private RecyclerView workManRcv;
+    private WorkManRecyclerViewAdapter workManRecyclerViewAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,5 +44,37 @@ public class ChooseWorkManActivity extends AppCompatActivity {
                 return insets;
             }
         });
+
+
+        WorkManDataSource workManDataSource = WorkManDataSource.getInstance(FirebaseFirestore.getInstance());
+
+        workManRcv = findViewById(R.id.workman_rc);
+        workManDataSource.getListTopWorkMan(new ResultListener<List<WorkMan>>() {
+            @Override
+            public void onSuccess(List<WorkMan> result) {
+                workManRecyclerViewAdapter = new WorkManRecyclerViewAdapter(result, new WorkManRecyclerViewAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        setResultAndFinish(result.get(position));
+                    }
+                });
+                workManRcv.setLayoutManager(new LinearLayoutManager(ChooseWorkManActivity.this,LinearLayoutManager.VERTICAL, false));
+                workManRcv.setAdapter(workManRecyclerViewAdapter);
+            }
+
+            @Override
+            public void onError(Throwable error) {
+
+            }
+        });
+
+    }
+
+    private void setResultAndFinish(WorkMan workMan) {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("result_code", OrderWorkerCreateActivity.REQUEST_CODE_WORK_MAN);
+        resultIntent.putExtra("workMan",workMan);
+        setResult(Activity.RESULT_OK, resultIntent);
+        finish();
     }
 }

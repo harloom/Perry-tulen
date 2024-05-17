@@ -1,9 +1,14 @@
 package com.ferry.tulen.datasources.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class WorkMan {
+public class WorkMan implements Parcelable {
 
     private  String id;
 
@@ -15,6 +20,27 @@ public class WorkMan {
     private  String phoneNumber;
 
     private  String job;
+
+    protected WorkMan(Parcel in) {
+        id = in.readString();
+        email = in.readString();
+        fullName = in.readString();
+        address = in.readString();
+        phoneNumber = in.readString();
+        job = in.readString();
+    }
+
+    public static final Creator<WorkMan> CREATOR = new Creator<WorkMan>() {
+        @Override
+        public WorkMan createFromParcel(Parcel in) {
+            return new WorkMan(in);
+        }
+
+        @Override
+        public WorkMan[] newArray(int size) {
+            return new WorkMan[size];
+        }
+    };
 
     public void setId(String id) {
         this.id = id;
@@ -105,8 +131,23 @@ public class WorkMan {
         String phoneNumber = (String) map.get("phoneNumber");
         String job = (String) map.get("job");
         return  new WorkMan(
-                id,fullName,email,address,phoneNumber,job
+                id,email,fullName,address,phoneNumber,job
         );
 
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(email);
+        parcel.writeString(fullName);
+        parcel.writeString(address);
+        parcel.writeString(phoneNumber);
+        parcel.writeString(job);
     }
 }

@@ -115,6 +115,8 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(int position) {
                         Toast.makeText(HomeActivity.this, "Item " + position + " clicked", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(HomeActivity.this, OrderWorkerCreateActivity.class);
+                        startActivity(intent);
                     }
                 });
                 cRecyclerView.setLayoutManager(new LinearLayoutManager(HomeActivity.this,LinearLayoutManager.HORIZONTAL, false));
@@ -136,8 +138,6 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(int position) {
                         Toast.makeText(HomeActivity.this, "Item " + position + " clicked", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(HomeActivity.this, OrderWorkerCreateActivity.class);
-                        startActivity(intent);
 
                     }
                 });

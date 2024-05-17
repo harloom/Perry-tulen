@@ -19,6 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -31,8 +35,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.ferry.tulen.R;
+import com.ferry.tulen.datasources.models.WorkMan;
 import com.ferry.tulen.presentation.business.bottomsheet.BottomSheetCallback;
 import com.ferry.tulen.presentation.business.bottomsheet.BottomSheetFragment;
+import com.ferry.tulen.presentation.home.HomeActivity;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -55,8 +61,11 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
 
 
+    public  static int REQUEST_CODE_WORK_MAN = 19;
+
     ///value
 
+    private WorkMan selectedWorkMan;
     private EditText etDescription;
     private String tipePengerjaan;
     private  Location locationNow;
@@ -94,6 +103,16 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
                 getLastLocation();
             }
         });
+
+
+        findViewById(R.id.btnPilihTukang).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(OrderWorkerCreateActivity.this, ChooseWorkManActivity.class);
+                someActivityResultLauncher.launch(intent);
+            }
+        });
+
 
 
         Calendar minDate = Calendar.getInstance();
@@ -174,6 +193,26 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
 
     }
 
+    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        // Extract the result from the Intent
+                        int resultCode = data.getIntExtra("result_code", -1);
+                        if (resultCode == OrderWorkerCreateActivity.REQUEST_CODE_WORK_MAN) {
+                            WorkMan workMan = (WorkMan) data.getParcelableExtra("workMan");
+                            System.out.println("debug: Workman "  + workMan.getFullName());
+                            selectedWorkMan = workMan;
+                            findViewById(R.id.mainHeader).setVisibility(View.VISIBLE);
+                            setValueWorkMan();
+                        }
+                    }
+                }
+            });
+
     void sendOrder(View view ){
         ///
     }
@@ -194,6 +233,15 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
         setPengerjaan.setText(tipePengerjaan);
     }
 
+    void setValueWorkMan() {
+        TextView namaTukang = findViewById(R.id.namatukang);
+        namaTukang.setText(selectedWorkMan.getFullName());
+
+        TextView jesniTukang = findViewById(R.id.jenisTukang);
+        jesniTukang.setText(selectedWorkMan.getJob());
+    }
+
+
     @SuppressLint("SimpleDateFormat")
     void setValueJadwal(){
         TextView setJadwal = findViewById(R.id.resJadwal);
@@ -203,22 +251,23 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            //Image Uri will not be null for RESULT_OK
-            Uri uri = data.getData();
-            Toast.makeText(this, "Set : " + uri.toString(), Toast.LENGTH_LONG).show();
-            // Use Uri object instead of File to avoid storage permissions
-//            imgProfile.setImageURI(uri);
 
-            ImageView imageView = findViewById(R.id.imageView);
-            imageUri = uri;
-
-            imageView.setImageURI(uri);
-        } else if (resultCode == ImagePicker.RESULT_ERROR) {
-            Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show();
+        if(requestCode == OrderWorkerCreateActivity.REQUEST_CODE_WORK_MAN){
+            System.out.println("debug: Workman onActivityResult overide ");
+        }else{
+            if (resultCode == Activity.RESULT_OK) {
+                //Image Uri will not be null for RESULT_OK
+                Uri uri = data.getData();
+                ImageView imageView = findViewById(R.id.imageView);
+                imageUri = uri;
+                imageView.setImageURI(uri);
+            } else if (resultCode == ImagePicker.RESULT_ERROR) {
+                Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show();
+            } else {
+//                Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show();
+            }
         }
+
     }
 
     @Override
