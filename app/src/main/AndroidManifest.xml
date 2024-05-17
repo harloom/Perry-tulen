@@ -17,6 +17,9 @@
         android:theme="@style/Theme.Tulen"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.business.ConfirmOrderActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.business.ChooseWorkManActivity"
             android:exported="false" />
         <activity
