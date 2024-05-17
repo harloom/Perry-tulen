@@ -1,6 +1,5 @@
 package com.ferry.tulen.presentation.home;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,22 +22,13 @@ import com.ferry.tulen.datasources.listener.ResultListener;
 import com.ferry.tulen.datasources.models.Category;
 import com.ferry.tulen.datasources.models.UserWithIdDocument;
 import com.ferry.tulen.datasources.models.WorkMan;
-import com.ferry.tulen.presentation.auth.LoginActivity;
-import com.ferry.tulen.presentation.auth.SetUserActivity;
+import com.ferry.tulen.presentation.business.OrderWorkerCreateActivity;
 import com.ferry.tulen.presentation.home.rcv.CategoryRecyclerViewAdapter;
 import com.ferry.tulen.presentation.home.rcv.WorkManRecyclerViewAdapter;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.core.FirestoreClient;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
@@ -147,6 +136,9 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(int position) {
                         Toast.makeText(HomeActivity.this, "Item " + position + " clicked", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(HomeActivity.this, OrderWorkerCreateActivity.class);
+                        startActivity(intent);
+
                     }
                 });
                 workManTopRcView.setLayoutManager(new LinearLayoutManager(HomeActivity.this,LinearLayoutManager.VERTICAL, false));

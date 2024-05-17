@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomRatingBarIndicatorYellow" parent="@style/Widget.AppCompat.RatingBar.Indicator">
+        <item name="android:progressBackgroundTint">@color/yellow</item>
+        <item name="android:progressTint">@color/yellow</item>
+        <item name="android:secondaryProgressTint">@color/yellow</item>
+    </style>
+
+</resources>

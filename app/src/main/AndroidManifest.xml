@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ferry.tulen">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,7 +17,13 @@
         android:theme="@style/Theme.Tulen"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.business.OrderWorkerActivity"
+            android:name=".presentation.business.ChooseWorkManActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.business.OrderOnProgressActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.business.OrderWorkerCreateActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.auth.SetUserActivity"
