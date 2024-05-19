@@ -8,6 +8,7 @@ import com.ferry.tulen.datasources.SharedPreferences.SharedPreferenceHelper;
 import com.ferry.tulen.datasources.listener.ResultListener;
 import com.ferry.tulen.datasources.models.GuardUser;
 import com.ferry.tulen.datasources.models.GuardWorkMan;
+import com.ferry.tulen.datasources.models.TokenNotification;
 import com.ferry.tulen.datasources.models.User;
 import com.ferry.tulen.datasources.models.WorkMan;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -267,5 +268,21 @@ public class AuthDataSource {
                     }
                 }
         );
+    }
+
+    public void setToken(String id, String token, ResultListener<String> resultListener){
+        db.collection(CollectionName.TOKEN_NOTIF).document(id).set(new TokenNotification(
+                token
+        ).setTokenMap()).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                resultListener.onSuccess("OK");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                resultListener.onError(e);
+            }
+        });
     }
 }

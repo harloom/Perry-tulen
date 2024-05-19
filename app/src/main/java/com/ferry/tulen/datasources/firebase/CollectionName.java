@@ -13,6 +13,11 @@ public class CollectionName {
     public static String RATING = "rating";
 
 
+    public static String ORDER = "order";
+
+    public static String NOTIFICATION_WORKER = "notification_worker";
+
+    public static  String TOKEN_NOTIF = "notification_token";
 
     public static  String base64Example = "examplebase64";
 

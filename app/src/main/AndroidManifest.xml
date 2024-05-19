@@ -17,6 +17,12 @@
         android:theme="@style/Theme.Tulen"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.business.worker.WorkerListOderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.business.SuccessActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.business.ConfirmOrderActivity"
             android:exported="false" />
         <activity
@@ -63,6 +69,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

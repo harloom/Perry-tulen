@@ -13,21 +13,24 @@ public class Order {
     private   String typeWork;
     private   String descWork;
 
+    private  String categoryJob;
+
     private  String fileStorage;
     private  Date startDate;
     private  Date endDate;
 
     private   String geohash;
 
-    private  Long lat;
+    private  Double lat;
 
-    private  Long lng;
+    private  Double lng;
 
-    public Order(String idUser, String idWorkman, String typeWork, String descWork, String fileStorage, Date startDate, Date endDate, String geohash, Long lat, Long lng) {
+    public Order(String idUser, String idWorkman, String typeWork, String descWork, String categoryJob, String fileStorage, Date startDate, Date endDate, String geohash, Double lat, Double lng) {
         this.idUser = idUser;
         this.idWorkman = idWorkman;
         this.typeWork = typeWork;
         this.descWork = descWork;
+        this.categoryJob = categoryJob;
         this.fileStorage = fileStorage;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -36,6 +39,9 @@ public class Order {
         this.lng = lng;
     }
 
+    public String getCategoryJob() {
+        return categoryJob;
+    }
 
     public String getIdUser() {
         return idUser;
@@ -77,11 +83,11 @@ public class Order {
         return geohash;
     }
 
-    public Long getLat() {
+    public Double getLat() {
         return lat;
     }
 
-    public Long getLng() {
+    public Double getLng() {
         return lng;
     }
 
@@ -103,6 +109,7 @@ public class Order {
         map.put("geohash", geohash);
         map.put("lat", lat);
         map.put("lng", lng);
+        map.put("categoryJob",categoryJob);
 
         return map;
     }
@@ -126,11 +133,12 @@ public class Order {
         Timestamp startDate = (Timestamp) map.get("startDate");
         Timestamp endDate = (Timestamp) map.get("endDate");
         String geohash = (String) map.get("geohash");
-        Long lat = (Long) map.get("lat");
-        Long lng = (Long) map.get("lng");
+        Double lat = (Double) map.get("lat");
+        Double lng = (Double) map.get("lng");
+        String categoryJob = (String) map.get("categoryJob");
 
         return new Order(
-                idUser,idWorkman,typeWork,descWork,fileStorage,startDate.toDate(),endDate.toDate(),geohash,lat,lng
+                idUser,idWorkman,typeWork,descWork,categoryJob,fileStorage,startDate.toDate(),endDate.toDate(),geohash,lat,lng
         );
     }
 

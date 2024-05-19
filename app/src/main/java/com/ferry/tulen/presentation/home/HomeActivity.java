@@ -1,5 +1,6 @@
 package com.ferry.tulen.presentation.home;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,8 +26,11 @@ import com.ferry.tulen.datasources.models.WorkMan;
 import com.ferry.tulen.presentation.business.OrderWorkerCreateActivity;
 import com.ferry.tulen.presentation.home.rcv.CategoryRecyclerViewAdapter;
 import com.ferry.tulen.presentation.home.rcv.WorkManRecyclerViewAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.List;
 import java.util.Objects;
@@ -58,6 +62,35 @@ public class HomeActivity extends AppCompatActivity {
         String typeLoginString = sharedPreferenceHelper.getString(SharedPreferenceHelper.KEY_TYPE_LOGIN,"");
         int typeLogin = Integer.parseInt(typeLoginString);
         String idUser = sharedPreferenceHelper.getString(SharedPreferenceHelper.KEY_ID_USER,"");
+
+
+        /// set token
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+//                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        authDataSource.setToken(idUser, token, new ResultListener<String>() {
+                            @Override
+                            public void onSuccess(String result) {
+                                System.out.println("Token Set");
+                            }
+
+                            @Override
+                            public void onError(Throwable error) {
+                                System.out.println("Error Token Set");
+
+                            }
+                        });
+
+                    }
+                });
 
 
 
@@ -107,16 +140,15 @@ public class HomeActivity extends AppCompatActivity {
         dataSource.getAllCategory(new ResultListener<List<Category>>() {
             @Override
             public void onSuccess(List<Category> result) {
-//                for (Category doc : result) {
-//                    System.out.println("debug: result " + doc.toString());
-//                }
 
                 cAdapter = new CategoryRecyclerViewAdapter(result, new CategoryRecyclerViewAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        Toast.makeText(HomeActivity.this, "Item " + position + " clicked", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(HomeActivity.this, OrderWorkerCreateActivity.class);
+                        intent.putExtra("pekerjaan",result.get(position).getName());
                         startActivity(intent);
+
+
                     }
                 });
                 cRecyclerView.setLayoutManager(new LinearLayoutManager(HomeActivity.this,LinearLayoutManager.HORIZONTAL, false));

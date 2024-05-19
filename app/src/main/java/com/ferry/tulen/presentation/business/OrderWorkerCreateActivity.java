@@ -6,11 +6,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.EditText;
@@ -34,11 +36,19 @@ import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.ferry.tulen.R;
+import com.ferry.tulen.UtilsKey;
+import com.ferry.tulen.datasources.SharedPreferences.SharedPreferenceHelper;
+import com.ferry.tulen.datasources.firebase.OrderDataSource;
+import com.ferry.tulen.datasources.listener.ResultListener;
+import com.ferry.tulen.datasources.models.Order;
 import com.ferry.tulen.datasources.models.WorkMan;
 import com.ferry.tulen.presentation.business.bottomsheet.BottomSheetCallback;
 import com.ferry.tulen.presentation.business.bottomsheet.BottomSheetFragment;
 import com.ferry.tulen.presentation.home.HomeActivity;
+import com.firebase.geofire.GeoFireUtils;
+import com.firebase.geofire.GeoLocation;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -47,6 +57,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.type.DateTime;
 
 
@@ -69,6 +81,8 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
     private EditText etDescription;
     private String tipePengerjaan;
     private  Location locationNow;
+
+    private String pekerjaan;
 
     private Date startDate;
     private Date endDate;
@@ -93,6 +107,13 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
         });
 
         etDescription = findViewById(R.id.textJob);
+
+        TextView perkerjanTxt = findViewById(R.id.resPerkerjaan);
+        Intent intent = getIntent();
+
+        pekerjaan = intent.getStringExtra("pekerjaan");
+
+        perkerjanTxt.setText(pekerjaan);
 
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -188,6 +209,8 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sendOrder(view);
+
+//                testSendOrder(view);
             }
         });
 
@@ -206,15 +229,80 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
                             WorkMan workMan = (WorkMan) data.getParcelableExtra("workMan");
                             System.out.println("debug: Workman "  + workMan.getFullName());
                             selectedWorkMan = workMan;
-                            findViewById(R.id.mainHeader).setVisibility(View.VISIBLE);
+
                             setValueWorkMan();
                         }
                     }
                 }
             });
 
+
+    void testSendOrder(View view){
+        LottieAnimationView animationView =  findViewById(R.id.loadingAnimation);
+        animationView.setVisibility(View.VISIBLE);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Start the main activity after the delay
+                animationView.setVisibility(View.GONE);
+                goToSuccess();
+            }
+        }, 3000);
+    }
+
+    void goToSuccess(){
+        Intent intent = new Intent(OrderWorkerCreateActivity.this, SuccessActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
     void sendOrder(View view ){
-        ///
+
+        /// validation
+        if(locationNow == null){
+            Snackbar.make(view,"Silahkan Ambil Coordinate terlebih dahulu", Snackbar.LENGTH_LONG)
+                    .setBackgroundTint(Color.RED)
+                    .show();
+            return;
+        }
+
+
+        LottieAnimationView animationView =  findViewById(R.id.loadingAnimation);
+        animationView.setVisibility(View.VISIBLE);
+
+        SharedPreferenceHelper sharedPreferenceHelper = new SharedPreferenceHelper(this);
+        OrderDataSource orderDataSource =  OrderDataSource.getInstance(FirebaseFirestore.getInstance());
+        String idUser = sharedPreferenceHelper.getString(SharedPreferenceHelper.KEY_ID_USER,"");
+
+
+        // geo hash
+        String hash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(locationNow.getLatitude(), locationNow.getLongitude()));
+
+
+
+        Order order = new Order(
+                idUser,selectedWorkMan.getId(),tipePengerjaan,etDescription.getText().toString(),pekerjaan,
+                "test.png",startDate,endDate,hash,locationNow.getLatitude(),locationNow.getLongitude()
+        );
+
+
+        orderDataSource.createdOrder(order, new ResultListener<String>() {
+            @Override
+            public void onSuccess(String result) {
+                animationView.setVisibility(View.GONE);
+                goToSuccess();
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                animationView.setVisibility(View.GONE);
+
+                Snackbar.make(view,error.getMessage(), Snackbar.LENGTH_LONG)
+                        .setBackgroundTint(Color.RED)
+                        .show();
+            }
+        });
+
     }
 
 
@@ -234,11 +322,22 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
     }
 
     void setValueWorkMan() {
+
+        findViewById(R.id.mainHeader).setVisibility(View.VISIBLE);
+        findViewById(R.id.cardView).setVisibility(View.VISIBLE);
+
         TextView namaTukang = findViewById(R.id.namatukang);
         namaTukang.setText(selectedWorkMan.getFullName());
 
         TextView jesniTukang = findViewById(R.id.jenisTukang);
         jesniTukang.setText(selectedWorkMan.getJob());
+
+        /// set alamat
+        TextView addressTukang = findViewById(R.id.addressTukang);
+        addressTukang.setText(selectedWorkMan.getAddress());
+
+        // Coordinate
+
     }
 
 
@@ -299,9 +398,12 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
                         Location location = task.getResult();
                         if (location != null) {
                             // Logic to handle location object
-                            System.out.println("Debug: location " + location.getLatitude() + ", Long : " + location.getLongitude());
+//                            System.out.println("Debug: location " + location.getLatitude() + ", Long : " + location.getLongitude());
 
                             locationNow = location;
+
+                           TextView txtLocation =  findViewById(R.id.resLocation);
+                           txtLocation.setText("Long : " + locationNow.getLongitude() + " lat : " + locationNow.getLatitude());
                         }
                     }
                 });
