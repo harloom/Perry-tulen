@@ -1,4 +1,4 @@
-package com.ferry.tulen.presentation.business.worker;
+package com.ferry.tulen.presentation.business.user.fragment.rcv;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,39 +9,33 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ferry.tulen.R;
+import com.ferry.tulen.datasources.models.Order;
 
 import java.util.List;
 
-
-import com.ferry.tulen.datasources.models.Order;
-
-public class RcvOrderAdapter extends RecyclerView.Adapter<RcvOrderAdapter.ViewHolder> {
+public class RcvOrderOnProgressAdapter extends RecyclerView.Adapter<RcvOrderOnProgressAdapter.ViewHolder> {
     private List<Order> mData;
     private OnItemClickListener mListener;
 
-    public RcvOrderAdapter(List<Order> data,OnItemClickListener listener) {
+    public RcvOrderOnProgressAdapter(List<Order> data, OnItemClickListener listener) {
         mData = data;
         mListener = listener;
     }
 
     @NonNull
     @Override
-    public RcvOrderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order, parent, false);
-        return new RcvOrderAdapter.ViewHolder(view);
+    public RcvOrderOnProgressAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order_progress, parent, false);
+        return new RcvOrderOnProgressAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RcvOrderAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RcvOrderOnProgressAdapter.ViewHolder holder, int position) {
 
         holder.mTextView.setText("Pekerjaan : " + mData.get(position).getCategoryJob());
-            Long transactionStatusId = mData.get(position).getStatusTransaction();
-        String statusTransaction = transactionStatusId == 1 ? "Sedang dikerjakan" :  transactionStatusId  == -1 ? "Di tolak" : "Menunggu Konfirmasi";
-
-
-        holder.mStatusTransaction.setText(statusTransaction);
-
         holder.mTextView2.setText(mData.get(position).getDescWork());
+        Long transactionStatusId = mData.get(position).getStatusTransaction();
+
         holder.itemView.setOnClickListener(v -> mListener.onItemClick(position));
     }
 
@@ -53,13 +47,13 @@ public class RcvOrderAdapter extends RecyclerView.Adapter<RcvOrderAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mTextView;
         public TextView mTextView2;
+
         public TextView mStatusTransaction;
         public ViewHolder(View itemView) {
             super(itemView);
             mTextView = itemView.findViewById(R.id.categoryOrder);
 
             mTextView2 = itemView.findViewById(R.id.descOrder);
-
 
             mStatusTransaction = itemView.findViewById(R.id.statusTransaction);
         }

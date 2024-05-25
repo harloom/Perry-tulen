@@ -19,7 +19,7 @@
             android:layout_width="100dp"
             android:layout_height="97dp"
             android:padding="10dp"
-            app:tint="@color/blue_500"
+            app:tint="#8F9193"
             android:src="@drawable/baseline_assignment_24" />
 
         <TextView
@@ -29,7 +29,7 @@
             android:layout_marginTop="15dp"
             android:layout_toEndOf="@+id/avatar"
             android:text="-"
-            android:textSize="18sp" />
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/descOrder"

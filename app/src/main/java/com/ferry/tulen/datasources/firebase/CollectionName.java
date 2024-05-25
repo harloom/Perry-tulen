@@ -14,7 +14,7 @@ public class CollectionName {
 
 
     public static String ORDER = "order";
-
+    public static String ORDER_FINISH = "order_finish";
     public static String NOTIFICATION_WORKER = "notification_worker";
 
     public static  String TOKEN_NOTIF = "notification_token";

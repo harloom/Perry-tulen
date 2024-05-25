@@ -1,5 +1,6 @@
 package com.ferry.tulen.presentation.business.worker;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -17,8 +18,7 @@ import com.ferry.tulen.datasources.SharedPreferences.SharedPreferenceHelper;
 import com.ferry.tulen.datasources.firebase.OrderDataSource;
 import com.ferry.tulen.datasources.listener.ResultListener;
 import com.ferry.tulen.datasources.models.Order;
-import com.ferry.tulen.presentation.business.ChooseWorkManActivity;
-import com.ferry.tulen.presentation.home.rcv.WorkManRecyclerViewAdapter;
+import com.ferry.tulen.presentation.business.ConfirmOrderActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
@@ -49,13 +49,15 @@ public class WorkerListOderActivity extends AppCompatActivity {
          String idUser = sharedPreferenceHelper.getString(SharedPreferenceHelper.KEY_ID_USER,"");
 
         rcvOrder = findViewById(R.id.rcv_order);
-        orderDataSource.getListOrder(idUser, new ResultListener<List<Order>>() {
+        orderDataSource.getListOrderWithIdWorker(idUser, new ResultListener<List<Order>>() {
             @Override
             public void onSuccess(List<Order> result) {
                 rcvOrderAdapter = new RcvOrderAdapter(result, new RcvOrderAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-
+                        Intent intent = new Intent(WorkerListOderActivity.this, ConfirmOrderActivity.class);
+                        intent.putExtra("idOrder",result.get(position).getId());
+                        startActivity(intent);
                     }
                 });
                 rcvOrder.setLayoutManager(new LinearLayoutManager(WorkerListOderActivity.this,LinearLayoutManager.VERTICAL, false));
@@ -69,4 +71,6 @@ public class WorkerListOderActivity extends AppCompatActivity {
         });
 
     }
+
+
 }

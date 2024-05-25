@@ -7,12 +7,27 @@ import java.util.Optional;
 public class Rating {
     private  final String idUser;
     private  final String idWorkman;
-    private  final int rating;
+    private  final double rating;
 
     private final String comment;
 
+    public String getIdUser() {
+        return idUser;
+    }
 
-    public Rating(String idUser, String idWorkman, int rating, String comment) {
+    public String getIdWorkman() {
+        return idWorkman;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public Rating(String idUser, String idWorkman, double rating, String comment) {
         this.idUser = idUser;
         this.idWorkman = idWorkman;
         this.rating = rating;
@@ -35,8 +50,8 @@ public class Rating {
         String idUser = (String) map.get("id");
         String idWorkman = (String) map.get("fullName");
 
-        int rating = Optional.ofNullable((Integer) map.getOrDefault("rating", null))
-                .orElse(0);
+        double rating = Optional.ofNullable((Double) map.getOrDefault("rating", 0.0))
+                .orElse(0.0);
         String comment = (String) map.get("comment");
 
         return  new Rating(

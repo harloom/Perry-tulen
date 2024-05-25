@@ -104,7 +104,7 @@ public class AuthDataSource {
 
                 WriteBatch batch = db.batch();
                 String generateId = "WORKMAN_" + System.currentTimeMillis();
-                WorkMan user = new WorkMan(generateId, email, "", "", "", "");
+                WorkMan user = new WorkMan(generateId, email, "", "", "", "",0.0);
                 GuardWorkMan guardWorkMan = new GuardWorkMan(user.getId(), password);
                 batch.set(db.collection(CollectionName.WORK_MAN).document(), user.toMap());
                 batch.set(db.collection(CollectionName.GUARD_WORK_MAN).document(), guardWorkMan.toMap());

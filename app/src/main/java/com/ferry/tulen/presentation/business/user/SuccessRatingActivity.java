@@ -1,4 +1,4 @@
-package com.ferry.tulen.presentation.business;
+package com.ferry.tulen.presentation.business.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,20 +13,19 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.ferry.tulen.R;
 import com.ferry.tulen.datasources.SharedPreferences.SharedPreferenceHelper;
-import com.ferry.tulen.presentation.auth.LoginActivity;
+import com.ferry.tulen.presentation.business.SuccessComplatedActivity;
 import com.ferry.tulen.presentation.home.HomeActivity;
 import com.ferry.tulen.presentation.home.WorkManHomeActivity;
 
 import java.util.Objects;
 
-public class SuccessActivity extends AppCompatActivity {
+public class SuccessRatingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_success);
-
+        setContentView(R.layout.activity_success_rating);
         Objects.requireNonNull(getSupportActionBar()).hide();
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), new OnApplyWindowInsetsListener() {
             @Override
@@ -44,11 +43,11 @@ public class SuccessActivity extends AppCompatActivity {
                 int typeLogin = Integer.parseInt(typeLoginString);
 
                 if(typeLogin == 1){
-                    Intent intent = new Intent(SuccessActivity.this, HomeActivity.class);
+                    Intent intent = new Intent(SuccessRatingActivity.this, HomeActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 }else if(typeLogin == 2){
-                    Intent intent = new Intent(SuccessActivity.this, WorkManHomeActivity.class);
+                    Intent intent = new Intent(SuccessRatingActivity.this, WorkManHomeActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 }

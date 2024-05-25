@@ -45,7 +45,7 @@
             android:layout_below="@+id/descOrder"
             android:layout_toEndOf="@+id/avatar"
             android:textColor="@color/colorPrimary"
-            android:text="-" />
+            android:text="Selesai" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

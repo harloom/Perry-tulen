@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.business.SuccessOrderActivity">
+    tools:context=".presentation.business.user.SuccessRatingActivity">
 
     <ImageView
         android:id="@+id/idIVLogo"
@@ -29,7 +29,7 @@
         android:layout_centerInParent="true"
         android:layout_marginBottom="24dp"
         android:gravity="center"
-        android:text="Berhasil"
+        android:text="Berhasil Merating"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/btnOK"
         app:layout_constraintEnd_toEndOf="parent"

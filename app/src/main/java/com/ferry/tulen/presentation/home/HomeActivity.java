@@ -24,6 +24,7 @@ import com.ferry.tulen.datasources.models.Category;
 import com.ferry.tulen.datasources.models.UserWithIdDocument;
 import com.ferry.tulen.datasources.models.WorkMan;
 import com.ferry.tulen.presentation.business.OrderWorkerCreateActivity;
+import com.ferry.tulen.presentation.business.user.UserMyOrderActivity;
 import com.ferry.tulen.presentation.home.rcv.CategoryRecyclerViewAdapter;
 import com.ferry.tulen.presentation.home.rcv.WorkManRecyclerViewAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -112,6 +113,14 @@ public class HomeActivity extends AppCompatActivity {
                                 .show();
                     }
                 });
+            }
+        });
+
+        findViewById(R.id.btnPesananSaya).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeActivity.this, UserMyOrderActivity.class);
+                startActivity(intent);
             }
         });
 

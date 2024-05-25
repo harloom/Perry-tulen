@@ -21,6 +21,8 @@ public class WorkMan implements Parcelable {
 
     private  String job;
 
+    private  Double rating;
+
     protected WorkMan(Parcel in) {
         id = in.readString();
         email = in.readString();
@@ -28,6 +30,7 @@ public class WorkMan implements Parcelable {
         address = in.readString();
         phoneNumber = in.readString();
         job = in.readString();
+        rating = in.readDouble();
     }
 
     public static final Creator<WorkMan> CREATOR = new Creator<WorkMan>() {
@@ -90,13 +93,25 @@ public class WorkMan implements Parcelable {
         return job;
     }
 
-    public WorkMan(String id, String email, String fullName, String address, String phoneNumber, String job) {
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public WorkMan(String id, String email, String fullName, String address, String phoneNumber, String job, Double rating) {
         this.id = id;
         this.email = email;
         this.fullName = fullName;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.job = job;
+        this.rating = rating;
+    }
+
+    public WorkMan() {
     }
 
     public Map<String, Object> toMap() {
@@ -107,6 +122,13 @@ public class WorkMan implements Parcelable {
         map.put("address", address);
         map.put("phoneNumber", phoneNumber);
         map.put("job", job);
+        map.put("rating", rating);
+        return map;
+    }
+
+    public Map<String, Object> toUpdateRating() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("rating", rating);
         return map;
     }
 
@@ -130,8 +152,9 @@ public class WorkMan implements Parcelable {
         String address = (String) map.get("address");
         String phoneNumber = (String) map.get("phoneNumber");
         String job = (String) map.get("job");
+        Double rating = (Double) map.get("rating");
         return  new WorkMan(
-                id,email,fullName,address,phoneNumber,job
+                id,email,fullName,address,phoneNumber,job,rating
         );
 
     }
@@ -149,5 +172,6 @@ public class WorkMan implements Parcelable {
         parcel.writeString(address);
         parcel.writeString(phoneNumber);
         parcel.writeString(job);
+        parcel.writeDouble(rating);
     }
 }

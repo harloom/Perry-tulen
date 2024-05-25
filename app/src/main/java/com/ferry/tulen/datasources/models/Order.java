@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Order {
+
+    private String id;
     private  String idUser;
     private  String idWorkman;
-
     private   String typeWork;
     private   String descWork;
-
     private  String categoryJob;
 
     private  String fileStorage;
@@ -25,7 +25,11 @@ public class Order {
 
     private  Double lng;
 
-    public Order(String idUser, String idWorkman, String typeWork, String descWork, String categoryJob, String fileStorage, Date startDate, Date endDate, String geohash, Double lat, Double lng) {
+    private  long statusTransaction;
+
+    public Order(String id,String idUser, String idWorkman, String typeWork, String descWork, String categoryJob, String fileStorage, Date startDate, Date endDate, String geohash, Double lat, Double lng,
+                 long statusTransaction) {
+        this.id = id;
         this.idUser = idUser;
         this.idWorkman = idWorkman;
         this.typeWork = typeWork;
@@ -37,6 +41,7 @@ public class Order {
         this.geohash = geohash;
         this.lat = lat;
         this.lng = lng;
+        this.statusTransaction = statusTransaction;
     }
 
     public String getCategoryJob() {
@@ -92,11 +97,26 @@ public class Order {
     }
 
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public long getStatusTransaction() {
+        return statusTransaction;
+    }
+
+    public void setStatusTransaction(long statusTransaction) {
+        this.statusTransaction = statusTransaction;
+    }
+
     public Map<String, Object> createMap() {
 
         Timestamp startTimeStamp = new Timestamp(startDate.getTime() / 1000, 0);
         Timestamp endDateTimeStamp = new Timestamp(endDate.getTime() / 1000, 0);
-
 
         Map<String, Object> map = new HashMap<>();
         map.put("idUser", idUser);
@@ -110,20 +130,17 @@ public class Order {
         map.put("lat", lat);
         map.put("lng", lng);
         map.put("categoryJob",categoryJob);
+        map.put("statusTransaction",statusTransaction);
 
         return map;
     }
 
-    public static Order toObject(Map<String, Object> map) {
+    public static Order toObject(String id, Map<String, Object> map) {
 
 
         if (map == null) {
             return null;
         }
-
-//        Timestamp startTimeStamp = new Timestamp(startDate.getTime() / 1000, 0);
-//        Timestamp endDateTimeStamp = new Timestamp(endDate.getTime() / 1000, 0);
-
 
         String idUser = (String) map.get("idUser");
         String idWorkman = (String) map.get("idWorkman");
@@ -136,19 +153,35 @@ public class Order {
         Double lat = (Double) map.get("lat");
         Double lng = (Double) map.get("lng");
         String categoryJob = (String) map.get("categoryJob");
-
+        Long  statusTransaction = (Long) map.get("statusTransaction");
         return new Order(
-                idUser,idWorkman,typeWork,descWork,categoryJob,fileStorage,startDate.toDate(),endDate.toDate(),geohash,lat,lng
+                id,
+                idUser,idWorkman,typeWork,descWork,categoryJob,fileStorage,startDate.toDate(),endDate.toDate(),geohash,lat,lng,statusTransaction
         );
     }
 
+    public Map<String, Object> toTransactionUpdate() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("statusTransaction", statusTransaction);
+        return map;
+    }
 
 
-    //    Date date = new Date();
-//
-//// Convert the Date object to a Firestore Timestamp
-//Timestamp timestamp = new Timestamp(date.getTime() / 1000, 0);
-
-
-
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id='" + id + '\'' +
+                ", idUser='" + idUser + '\'' +
+                ", idWorkman='" + idWorkman + '\'' +
+                ", typeWork='" + typeWork + '\'' +
+                ", descWork='" + descWork + '\'' +
+                ", categoryJob='" + categoryJob + '\'' +
+                ", fileStorage='" + fileStorage + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", geohash='" + geohash + '\'' +
+                ", lat=" + lat +
+                ", lng=" + lng +
+                '}';
+    }
 }

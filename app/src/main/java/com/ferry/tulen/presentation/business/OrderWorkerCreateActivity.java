@@ -38,7 +38,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.ferry.tulen.R;
-import com.ferry.tulen.UtilsKey;
 import com.ferry.tulen.datasources.SharedPreferences.SharedPreferenceHelper;
 import com.ferry.tulen.datasources.firebase.OrderDataSource;
 import com.ferry.tulen.datasources.listener.ResultListener;
@@ -46,7 +45,6 @@ import com.ferry.tulen.datasources.models.Order;
 import com.ferry.tulen.datasources.models.WorkMan;
 import com.ferry.tulen.presentation.business.bottomsheet.BottomSheetCallback;
 import com.ferry.tulen.presentation.business.bottomsheet.BottomSheetFragment;
-import com.ferry.tulen.presentation.home.HomeActivity;
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
 import com.github.dhaval2404.imagepicker.ImagePicker;
@@ -59,7 +57,6 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.type.DateTime;
 
 
 import java.text.SimpleDateFormat;
@@ -252,7 +249,7 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
     }
 
     void goToSuccess(){
-        Intent intent = new Intent(OrderWorkerCreateActivity.this, SuccessActivity.class);
+        Intent intent = new Intent(OrderWorkerCreateActivity.this, SuccessOrderActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
@@ -281,8 +278,9 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
 
 
         Order order = new Order(
+                null, /// new create set null
                 idUser,selectedWorkMan.getId(),tipePengerjaan,etDescription.getText().toString(),pekerjaan,
-                "test.png",startDate,endDate,hash,locationNow.getLatitude(),locationNow.getLongitude()
+                "test.png",startDate,endDate,hash,locationNow.getLatitude(),locationNow.getLongitude(),0
         );
 
 
