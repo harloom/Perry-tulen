@@ -11,6 +11,8 @@ public class Rating {
 
     private final String comment;
 
+    private  final String idOrder;
+
     public String getIdUser() {
         return idUser;
     }
@@ -23,15 +25,20 @@ public class Rating {
         return rating;
     }
 
+    public String getIdOrder() {
+        return idOrder;
+    }
+
     public String getComment() {
         return comment;
     }
 
-    public Rating(String idUser, String idWorkman, double rating, String comment) {
+    public Rating(String idUser, String idWorkman, double rating, String comment, String idOrder) {
         this.idUser = idUser;
         this.idWorkman = idWorkman;
         this.rating = rating;
         this.comment = comment;
+        this.idOrder = idOrder;
     }
 
     public Map<String, Object> toMap() {
@@ -40,6 +47,7 @@ public class Rating {
         map.put("idWorkman", idWorkman);
         map.put("rating", rating);
         map.put("comment", comment);
+        map.put("idOrder", idOrder);
         return map;
     }
 
@@ -47,6 +55,8 @@ public class Rating {
         if (map == null) {
             return null;
         }
+
+        String idOrder = (String) map.get("idOrder");
         String idUser = (String) map.get("id");
         String idWorkman = (String) map.get("fullName");
 
@@ -55,7 +65,7 @@ public class Rating {
         String comment = (String) map.get("comment");
 
         return  new Rating(
-                idUser,idWorkman,rating,comment
+                idUser,idWorkman,rating,comment,idOrder
         );
 
     }

@@ -100,6 +100,28 @@ public class CreateRatingActivity extends AppCompatActivity {
 
 
 
+        RatingDataSource ratingDataSource = RatingDataSource.getInstance(FirebaseFirestore.getInstance());
+
+        ratingDataSource.checkRatingHave(orderWithUser.getOrder().getId(), new ResultListener<Boolean>() {
+            @Override
+            public void onSuccess(Boolean result) {
+                if(result == false){
+                    findViewById(R.id.ratingBar).setVisibility(View.VISIBLE);
+                    findViewById(R.id.kirimRating).setVisibility(View.VISIBLE);
+                    etUlasan.setVisibility(View.VISIBLE);
+                }else{
+                    findViewById(R.id.kirimRating).setVisibility(View.GONE);
+                    findViewById(R.id.ratingBar).setVisibility(View.GONE);
+                    etUlasan.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onError(Throwable error) {
+
+            }
+        });
+
         findViewById(R.id.kirimRating).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

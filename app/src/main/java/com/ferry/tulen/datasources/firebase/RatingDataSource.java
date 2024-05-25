@@ -36,11 +36,24 @@ public class RatingDataSource {
         return instance;
     }
 
+    public  void checkRatingHave(String idOrder, ResultListener<Boolean> resultListener ){
+        db.collection(CollectionName.RATING).whereEqualTo("idOrder", idOrder).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(queryDocumentSnapshots.isEmpty()){
+                    resultListener.onSuccess(false);
+                }else{
+                    resultListener.onSuccess(true);
+                }
+            }
+        });
+    }
+
 
     public void setRatingWorkman(OrderWithUser order, double star, String ulasan,ResultListener<String> resultListener){
         WriteBatch batch = db.batch();
 
-        Rating rating = new Rating(order.getUser().getUser().getId(),order.getWorkMan().getWorkMan().getId(),star,ulasan);
+        Rating rating = new Rating(order.getUser().getUser().getId(),order.getWorkMan().getWorkMan().getId(),star,ulasan,order.getOrder().getId());
         batch.set( db.collection(CollectionName.RATING).document(),rating.toMap());
         batch.commit().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
