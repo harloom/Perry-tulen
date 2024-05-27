@@ -16,6 +16,7 @@ import java.util.Map;
  * Example local unit test, which will execute on the development machine (host).
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * @noinspection ALL
  */
 public class ExampleUnitTest {
     @Test
@@ -66,6 +67,30 @@ public class ExampleUnitTest {
         // Print the predicted ratings
         for (Map.Entry<String, Double> entry : preds.entrySet()) {
             System.out.println("Predicted rating for item " + entry.getKey() + ": " + entry.getValue());
+        }
+    }
+
+    @Test
+    public  void testSlopeOne2(){
+        Map<String, Map<String, Double>> ratings = new HashMap<>();
+
+// Add some ratings data
+        ratings.put("user1", Map.of("item1", 5.0, "item2", 3.0, "item3", 4.0));
+        ratings.put("user2", Map.of("item1", 4.0, "item2", 2.0, "item3", 3.0));
+
+// Create a SlopeOneWorkMan object
+        SlopeOneWorkMan s1 = new SlopeOneWorkMan();
+
+// Update the SlopeOneWorkMan object with the ratings data
+        s1.update(ratings);
+
+// Predict the ratings for a user
+        Map<String, Double> userprefs = Map.of("item1", 4.0, "item2", 2.0);
+        Map<String, Double> preds = s1.predict(userprefs);
+
+// Print the predicted ratings
+        for (Map.Entry<String, Double> entry : preds.entrySet()) {
+            System.out.println("test 2 Predicted rating for " + entry.getKey() + ": " + entry.getValue());
         }
     }
 }
