@@ -6,7 +6,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -51,18 +54,26 @@ import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 
 public class OrderWorkerCreateActivity extends AppCompatActivity {
@@ -205,9 +216,8 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
         findViewById(R.id.btnSubmit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendOrder(view);
+               uploadImageBeforeSubmit(view,imageUri);
 
-//                testSendOrder(view);
             }
         });
 
@@ -253,7 +263,7 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
-    void sendOrder(View view ){
+    void sendOrder(View view, String fileNameImage ){
 
         /// validation
         if(locationNow == null){
@@ -280,7 +290,7 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
         Order order = new Order(
                 null, /// new create set null
                 idUser,selectedWorkMan.getId(),tipePengerjaan,etDescription.getText().toString(),pekerjaan,
-                "test.png",startDate,endDate,hash,locationNow.getLatitude(),locationNow.getLongitude(),0
+                fileNameImage,startDate,endDate,hash,locationNow.getLatitude(),locationNow.getLongitude(),0
         );
 
 
@@ -415,6 +425,7 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
         }
     }
 
+
     private boolean checkPermissions() {
         return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
@@ -427,4 +438,59 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
+
+
+    private  void uploadImageBeforeSubmit(View view , Uri imageFile){
+
+
+
+
+        LottieAnimationView animationView =  findViewById(R.id.loadingAnimation);
+        animationView.setVisibility(View.VISIBLE);
+
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        String timestamp = dateFormat.format(new Date());
+        String randomString = UUID.randomUUID().toString();
+        String fileName = "file_" + timestamp + "_" + randomString + ".jpg";
+
+
+        StorageReference spaceRef = storageRef.child(fileName);
+
+
+        // Create a File object from the file path
+        Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getPath());
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+        byte[] data = baos.toByteArray();
+//
+
+// Create an upload task using the byte array
+        UploadTask uploadTask = spaceRef.putBytes(data);
+
+// Add listeners for the upload task
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                animationView.setVisibility(View.GONE);
+
+                Snackbar.make(view,"Upload Gagal", Snackbar.LENGTH_LONG)
+                        .setBackgroundTint(Color.RED)
+                        .show();
+
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                // ...
+
+                animationView.setVisibility(View.GONE);
+                sendOrder(view,fileName);
+            }
+        });
+    }
+
 }
