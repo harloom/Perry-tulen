@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -13,13 +14,17 @@ import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.ferry.tulen.R;
 import com.ferry.tulen.datasources.firebase.OrderDataSource;
+import com.ferry.tulen.datasources.firebase.StorageDownload;
 import com.ferry.tulen.datasources.listener.ResultListener;
 import com.ferry.tulen.datasources.models.OrderWithUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Objects;
 
 
@@ -100,6 +105,24 @@ import java.util.Objects;
             jadwalPekerjaanTv.setText(String.format("Mulai %s - %s", new SimpleDateFormat("yyyy-MM-dd").format(orderWithUser.getOrder().getStartDate()), new SimpleDateFormat("yyyy-MM-dd").format(orderWithUser.getOrder().getEndDate())));
             descPesanTv.setText(orderWithUser.getOrder().getDescWork());
             resalamat.setText(orderWithUser.getWorkMan().getWorkMan().getAddress());
+
+            ImageView fotopesanan = findViewById(R.id.fotopesanan);
+
+
+            StorageDownload.getInstance(FirebaseStorage.getInstance()).getUrlDownload(orderWithUser.getOrder().getFileStorage(), new ResultListener<Uri>() {
+                @Override
+                public void onSuccess(Uri result) {
+                    Glide.with(OrderOnProgressActivity.this)
+                            .load(result)
+                            .into(fotopesanan);
+                }
+
+                @Override
+                public void onError(Throwable error) {
+
+                }
+            });
+
 
 
             findViewById(R.id.btnToLokasi).setOnClickListener(new View.OnClickListener() {

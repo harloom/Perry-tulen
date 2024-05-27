@@ -152,9 +152,19 @@ public class WorkMan implements Parcelable {
         String address = (String) map.get("address");
         String phoneNumber = (String) map.get("phoneNumber");
         String job = (String) map.get("job");
-        Double rating = (Double) map.get("rating");
+        Object rating = (Object) map.get("rating");
+
+        Double ratingDouble = 0.0;
+
+        if(rating instanceof Double){
+            ratingDouble = (Double) rating;
+        }else  if( rating instanceof  Long){
+            ratingDouble = ((Long) rating).doubleValue();
+        }
+
+//        Double doubleRating = rating.doubleValue();
         return  new WorkMan(
-                id,email,fullName,address,phoneNumber,job,rating
+                id,email,fullName,address,phoneNumber,job,ratingDouble
         );
 
     }

@@ -47,11 +47,13 @@ public class ChooseWorkManActivity extends AppCompatActivity {
 
 
         WorkManDataSource workManDataSource = WorkManDataSource.getInstance(FirebaseFirestore.getInstance());
-
+                System.out.println("debug: getWorkMan");
         workManRcv = findViewById(R.id.workman_rc);
         workManDataSource.getListTopWorkMan(new ResultListener<List<WorkMan>>() {
             @Override
             public void onSuccess(List<WorkMan> result) {
+
+                System.out.println("debug: size : " + result.size());/**/
                 workManRecyclerViewAdapter = new WorkManRecyclerViewAdapter(result, new WorkManRecyclerViewAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {

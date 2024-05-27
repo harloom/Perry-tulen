@@ -11,15 +11,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.bumptech.glide.Glide;
 import com.ferry.tulen.R;
 import com.ferry.tulen.UtilsKey;
 import com.ferry.tulen.datasources.firebase.OrderDataSource;
+import com.ferry.tulen.datasources.firebase.StorageDownload;
 import com.ferry.tulen.datasources.listener.ResultListener;
 import com.ferry.tulen.datasources.models.OrderWithUser;
+import com.ferry.tulen.presentation.business.user.OrderOnProgressActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.text.SimpleDateFormat;
 import java.util.Objects;
@@ -117,6 +122,24 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         jadwalPekerjaanTv.setText(String.format("Mulai %s - %s", new SimpleDateFormat("yyyy-MM-dd").format(orderWithUser.getOrder().getStartDate()), new SimpleDateFormat("yyyy-MM-dd").format(orderWithUser.getOrder().getEndDate())));
         descPesanTv.setText(orderWithUser.getOrder().getDescWork());
         resalamat.setText(orderWithUser.getUser().getUser().getAddress());
+
+
+        ImageView fotopesanan = findViewById(R.id.fotopesanan);
+
+
+        StorageDownload.getInstance(FirebaseStorage.getInstance()).getUrlDownload(orderWithUser.getOrder().getFileStorage(), new ResultListener<Uri>() {
+            @Override
+            public void onSuccess(Uri result) {
+                Glide.with(ConfirmOrderActivity.this)
+                        .load(result)
+                        .into(fotopesanan);
+            }
+
+            @Override
+            public void onError(Throwable error) {
+
+            }
+        });
 
 
         findViewById(R.id.btnToLokasi).setOnClickListener(new View.OnClickListener() {
