@@ -23,6 +23,8 @@ import com.ferry.tulen.datasources.firebase.StorageDownload;
 import com.ferry.tulen.datasources.listener.ResultListener;
 import com.ferry.tulen.datasources.models.OrderWithUser;
 import com.ferry.tulen.presentation.business.user.OrderOnProgressActivity;
+import com.ferry.tulen.presentation.home.HomeActivity;
+import com.ferry.tulen.presentation.preview.PreviewPhotoActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 
@@ -133,6 +135,16 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 Glide.with(ConfirmOrderActivity.this)
                         .load(result)
                         .into(fotopesanan);
+
+
+                fotopesanan.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(ConfirmOrderActivity.this, PreviewPhotoActivity.class);
+                        intent.putExtra("url",result.toString());
+                        startActivity(intent);
+                    }
+                });
             }
 
             @Override

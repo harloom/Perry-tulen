@@ -22,12 +22,14 @@ import com.ferry.tulen.datasources.firebase.OrderDataSource;
 import com.ferry.tulen.datasources.firebase.RatingDataSource;
 import com.ferry.tulen.datasources.listener.ResultListener;
 import com.ferry.tulen.datasources.models.OrderWithUser;
+import com.ferry.tulen.datasources.models.Rating;
 import com.ferry.tulen.presentation.business.ConfirmOrderActivity;
 import com.ferry.tulen.presentation.business.SuccessComplatedActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Objects;
 
 public class CreateRatingActivity extends AppCompatActivity {
@@ -102,17 +104,23 @@ public class CreateRatingActivity extends AppCompatActivity {
 
         RatingDataSource ratingDataSource = RatingDataSource.getInstance(FirebaseFirestore.getInstance());
 
-        ratingDataSource.checkRatingHave(orderWithUser.getOrder().getId(), new ResultListener<Boolean>() {
+        ratingDataSource.checkRatingHave(orderWithUser.getOrder().getId(), new ResultListener<List<Rating>>() {
             @Override
-            public void onSuccess(Boolean result) {
-                if(result == false){
+            public void onSuccess(List<Rating> result) {
+                if(result.isEmpty()){
                     findViewById(R.id.ratingBar).setVisibility(View.VISIBLE);
                     findViewById(R.id.kirimRating).setVisibility(View.VISIBLE);
                     etUlasan.setVisibility(View.VISIBLE);
                 }else{
                     findViewById(R.id.kirimRating).setVisibility(View.GONE);
-                    findViewById(R.id.ratingBar).setVisibility(View.GONE);
-                    etUlasan.setVisibility(View.GONE);
+//                    findViewById(R.id.ratingBar).setVisibility(View.GONE);
+                    RatingBar ratingBar = findViewById(R.id.ratingBar);
+                    ratingBar.setIsIndicator(true);
+                    ratingBar.setRating((float) result.get(0).getRating());
+                    etUlasan.setEnabled(false);
+                    etUlasan.setText(result.get(0).getComment());
+
+//                    etUlasan.setVisibility(View.GONE);
                 }
             }
 

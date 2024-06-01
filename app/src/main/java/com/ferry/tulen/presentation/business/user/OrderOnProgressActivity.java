@@ -20,6 +20,9 @@ import com.ferry.tulen.datasources.firebase.OrderDataSource;
 import com.ferry.tulen.datasources.firebase.StorageDownload;
 import com.ferry.tulen.datasources.listener.ResultListener;
 import com.ferry.tulen.datasources.models.OrderWithUser;
+import com.ferry.tulen.presentation.business.ConfirmOrderActivity;
+import com.ferry.tulen.presentation.business.OrderWorkerCreateActivity;
+import com.ferry.tulen.presentation.preview.PreviewPhotoActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 
@@ -115,6 +118,15 @@ import java.util.Objects;
                     Glide.with(OrderOnProgressActivity.this)
                             .load(result)
                             .into(fotopesanan);
+
+                    fotopesanan.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(OrderOnProgressActivity.this, PreviewPhotoActivity.class);
+                            intent.putExtra("url",result.toString());
+                            startActivity(intent);
+                        }
+                    });
                 }
 
                 @Override

@@ -36,14 +36,20 @@ public class RatingDataSource {
         return instance;
     }
 
-    public  void checkRatingHave(String idOrder, ResultListener<Boolean> resultListener ){
+    public  void checkRatingHave(String idOrder, ResultListener< List<Rating>> resultListener ){
         db.collection(CollectionName.RATING).whereEqualTo("idOrder", idOrder).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if(queryDocumentSnapshots.isEmpty()){
-                    resultListener.onSuccess(false);
+                    List<Rating> ratings = new ArrayList<>();
+                    resultListener.onSuccess(ratings);
                 }else{
-                    resultListener.onSuccess(true);
+                    List<Rating> ratings = new ArrayList<>();
+                    for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                        Rating rating = Rating.fromMap(doc.getData());
+                        ratings.add(rating);
+                    }
+                    resultListener.onSuccess(ratings);
                 }
             }
         });

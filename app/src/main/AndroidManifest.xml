@@ -17,6 +17,9 @@
         android:theme="@style/Theme.Tulen"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.preview.PreviewPhotoActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.business.user.SuccessRatingActivity"
             android:exported="false" />
         <activity
