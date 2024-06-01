@@ -45,11 +45,15 @@ public class ChooseWorkManActivity extends AppCompatActivity {
             }
         });
 
+        Intent intent = getIntent();
+
+        String pekerjaan = intent.getStringExtra("job");
+
 
         WorkManDataSource workManDataSource = WorkManDataSource.getInstance(FirebaseFirestore.getInstance());
                 System.out.println("debug: getWorkMan");
         workManRcv = findViewById(R.id.workman_rc);
-        workManDataSource.getListTopWorkMan(new ResultListener<List<WorkMan>>() {
+        workManDataSource.getListByFiler(pekerjaan,new ResultListener<List<WorkMan>>() {
             @Override
             public void onSuccess(List<WorkMan> result) {
 

@@ -48,4 +48,26 @@ public class WorkManDataSource {
             }
         });
     }
+
+    public void getListByFiler(String pekerjaan, ResultListener<List<WorkMan>> resultListener){
+
+        System.out.println("debug: pekerjaan " + pekerjaan);
+        db.collection(CollectionName.WORK_MAN).whereEqualTo("job",pekerjaan).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<WorkMan> workManLists = new ArrayList<>();
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                    WorkMan workMan = WorkMan.fromMap(doc.getData());
+                    workManLists.add(workMan);
+                }
+
+                resultListener.onSuccess(workManLists);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                resultListener.onError(e);
+            }
+        });
+    }
 }

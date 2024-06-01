@@ -138,6 +138,10 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(OrderWorkerCreateActivity.this, ChooseWorkManActivity.class);
+
+
+                System.out.println("debug: job sebelum intent " + pekerjaan);
+                intent.putExtra("job",pekerjaan);
                 someActivityResultLauncher.launch(intent);
             }
         });
