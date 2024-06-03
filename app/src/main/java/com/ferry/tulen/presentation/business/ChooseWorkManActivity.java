@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ferry.tulen.R;
+import com.ferry.tulen.datasources.SharedPreferences.SharedPreferenceHelper;
 import com.ferry.tulen.datasources.firebase.WorkManDataSource;
 import com.ferry.tulen.datasources.listener.ResultListener;
 import com.ferry.tulen.datasources.models.WorkMan;
@@ -48,12 +49,13 @@ public class ChooseWorkManActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         String pekerjaan = intent.getStringExtra("job");
-
+        SharedPreferenceHelper sharedPreferenceHelper = new SharedPreferenceHelper(this);
+        String idUser = sharedPreferenceHelper.getString(SharedPreferenceHelper.KEY_ID_USER,"");
 
         WorkManDataSource workManDataSource = WorkManDataSource.getInstance(FirebaseFirestore.getInstance());
                 System.out.println("debug: getWorkMan");
         workManRcv = findViewById(R.id.workman_rc);
-        workManDataSource.getListByFiler(pekerjaan,new ResultListener<List<WorkMan>>() {
+        workManDataSource.getListByFiler(idUser,pekerjaan,new ResultListener<List<WorkMan>>() {
             @Override
             public void onSuccess(List<WorkMan> result) {
 

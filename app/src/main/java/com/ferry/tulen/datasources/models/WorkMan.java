@@ -23,6 +23,8 @@ public class WorkMan implements Parcelable {
 
     private  Double rating;
 
+    private  Double score;
+
     protected WorkMan(Parcel in) {
         id = in.readString();
         email = in.readString();
@@ -31,6 +33,7 @@ public class WorkMan implements Parcelable {
         phoneNumber = in.readString();
         job = in.readString();
         rating = in.readDouble();
+        score = in.readDouble();
     }
 
     public static final Creator<WorkMan> CREATOR = new Creator<WorkMan>() {
@@ -99,6 +102,14 @@ public class WorkMan implements Parcelable {
 
     public void setRating(Double rating) {
         this.rating = rating;
+    }
+
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
     }
 
     public WorkMan(String id, String email, String fullName, String address, String phoneNumber, String job, Double rating) {
@@ -183,5 +194,6 @@ public class WorkMan implements Parcelable {
         parcel.writeString(phoneNumber);
         parcel.writeString(job);
         parcel.writeDouble(rating);
+        parcel.writeDouble(score);
     }
 }

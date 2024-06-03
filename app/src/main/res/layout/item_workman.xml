@@ -37,6 +37,15 @@
             android:layout_below="@+id/namatukang"
             android:layout_toEndOf="@+id/avatar"
             android:text="Tukang Bangunan" />
+
+
+        <TextView
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/categoryTukang"
+            android:layout_toEndOf="@+id/avatar"
+            android:text="" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

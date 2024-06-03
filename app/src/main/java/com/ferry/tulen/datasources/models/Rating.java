@@ -57,15 +57,25 @@ public class Rating {
         }
 
         String idOrder = (String) map.get("idOrder");
-        String idUser = (String) map.get("id");
-        String idWorkman = (String) map.get("fullName");
+        String idUser = (String) map.get("idUser");
+        String idWorkman = (String) map.get("idWorkman");
 
-        double rating = Optional.ofNullable((Double) map.getOrDefault("rating", 0.0))
-                .orElse(0.0);
+
+        Object rating = (Object) map.get("rating");
+
+        Double ratingDouble = 0.0;
+
+        if(rating instanceof Double){
+            ratingDouble = (Double) rating;
+        }else  if( rating instanceof  Long){
+            ratingDouble = ((Long) rating).doubleValue();
+        }
+
         String comment = (String) map.get("comment");
 
+
         return  new Rating(
-                idUser,idWorkman,rating,comment,idOrder
+                idUser,idWorkman,ratingDouble,comment,idOrder
         );
 
     }

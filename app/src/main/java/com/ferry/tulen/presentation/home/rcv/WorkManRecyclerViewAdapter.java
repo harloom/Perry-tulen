@@ -34,8 +34,14 @@ public class WorkManRecyclerViewAdapter extends RecyclerView.Adapter<WorkManRecy
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.namaTukang.setText(mData.get(position).getFullName());
         holder.categoryTukang.setText(String.format("Tukang %s", mData.get(position).getJob()));
-
         holder.itemView.setOnClickListener(v -> mListener.onItemClick(position));
+
+
+        if(mData.get(position).getScore() != null){
+//            String formattedValue = String.format("%.3f", value);
+            if(position == 0)
+            holder.score.setText("rekomendasi");
+        }
     }
 
     @Override
@@ -46,10 +52,12 @@ public class WorkManRecyclerViewAdapter extends RecyclerView.Adapter<WorkManRecy
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView namaTukang;
         public TextView categoryTukang;
+
+        public TextView score;
         public ViewHolder(View itemView) {
             super(itemView);
             namaTukang = itemView.findViewById(R.id.namatukang);
-
+            score = itemView.findViewById(R.id.score);
             categoryTukang = itemView.findViewById(R.id.categoryTukang);
         }
     }
