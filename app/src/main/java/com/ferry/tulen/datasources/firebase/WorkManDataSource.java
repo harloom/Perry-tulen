@@ -114,7 +114,7 @@ public class WorkManDataSource {
 
         Map<String, Map<String, Double>> ratingsDataSet = new HashMap<>();
 
-        /// filter rating no inclue idUser;
+        /// filter rating  inclue idUser;
         List<Rating> filteredRatingByUser = ratingList.stream()
                 .filter(f -> idUser.contains(f.getIdUser()))
                 .collect(Collectors.toList());
@@ -174,12 +174,13 @@ public class WorkManDataSource {
             if(index != -1){
                 workManList.get(index).setScore(entry.getValue());
             }
+
         }
-        sortByIdDesc(workManList);
+        sortByScoreDesc(workManList);
         resultListener.onSuccess(workManList);
     }
 
-    public static void sortByIdDesc(List<WorkMan> list) {
+    public static void sortByScoreDesc(List<WorkMan> list) {
         list.sort(Comparator.comparingDouble((WorkMan e) -> e.getScore()!= null? e.getScore() : 0).reversed());
     }
     private static int getIndex(List<WorkMan> list, String targetId) {
