@@ -20,6 +20,7 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -348,7 +349,10 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
         TextView addressTukang = findViewById(R.id.addressTukang);
         addressTukang.setText(selectedWorkMan.getAddress());
 
-        // Coordinate
+        RatingBar ratingBar =  findViewById(R.id.ratingBar);
+        ratingBar.setIsIndicator(true);
+        ratingBar.setRating(selectedWorkMan.getRating().floatValue());
+
 
     }
 

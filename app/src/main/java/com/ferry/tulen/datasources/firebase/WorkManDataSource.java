@@ -168,11 +168,13 @@ public class WorkManDataSource {
 
         System.out.println("debug preds " + preds.entrySet().size());
         for (Map.Entry<String, Double> entry : preds.entrySet()) {
-            System.out.println("debug Predicted rating for item " + entry.getKey() + ": " + entry.getValue());
+
             /// update data rating ....
             int index = getIndex(workManList, entry.getKey());
             if(index != -1){
                 workManList.get(index).setScore(entry.getValue());
+
+                System.out.println("debug Predicted rating for item  " +  entry.getKey() + ": " +  workManList.get(index).getFullName() + ": " + entry.getValue());
             }
 
         }

@@ -1,5 +1,6 @@
 package com.ferry.tulen.presentation.home.rcv;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public class WorkManRecyclerViewAdapter extends RecyclerView.Adapter<WorkManRecy
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SuspiciousIndentation")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.namaTukang.setText(mData.get(position).getFullName());
