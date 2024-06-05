@@ -35,21 +35,26 @@ public class SlopeOneWorkMan {
 public void update(Map<String, Map<String, Double>> data) {
     // Iterate over each user in the dataset
     for (Map.Entry<String, Map<String, Double>> userEntry : data.entrySet()) {
-        String user = userEntry.getKey();
+//        String user = userEntry.getKey();
         Map<String, Double> userRatings = userEntry.getValue();
+        System.out.println("debug: Iterate over each user in the dataset : " + userRatings);
 
         // Iterate over each pair of items rated by the user
         for (Map.Entry<String, Double> itemEntry1 : userRatings.entrySet()) {
             String item1 = itemEntry1.getKey();
             Double rating1 = itemEntry1.getValue();
+            System.out.println("debug: itemEntry1 Iterate over each pair of items rated by the user : " + item1 + " Rating : " + rating1);
 
             for (Map.Entry<String, Double> itemEntry2 : userRatings.entrySet()) {
                 if (itemEntry1 != itemEntry2) {
                     String item2 = itemEntry2.getKey();
                     Double rating2 = itemEntry2.getValue();
 
+                    System.out.println("debug: itemEntry2 Iterate over each pair of items rated by the user : " + item2 + " Rating : " + rating2);
+
                     // Calculate the difference in ratings between the two items
                     Double diff = rating1 - rating2;
+                    System.out.println("debug: Calculate the difference in ratings between the two items : " + diff + " item Rating 1 : " + rating1 + " item rating 2 : " + rating2);
 
                     // Update the diffs and freqs maps with the new difference
                     diffs.computeIfAbsent(item1, k -> new HashMap<>()).put(item2, diffs.getOrDefault(item1, Collections.emptyMap()).getOrDefault(item2, 0.0) + diff);
@@ -59,6 +64,7 @@ public void update(Map<String, Map<String, Double>> data) {
         }
     }
 }
+
 //
 //    public Map<String, Double> predict(Map<String, Double> userprefs) {
 //        Map<String, Double> preds = new HashMap<>();
