@@ -23,6 +23,10 @@ public class WorkMan implements Parcelable {
 
     private  Double rating;
 
+    private String priceMin;
+
+    private String priceMax;
+
     private  Double score;
 
     protected WorkMan(Parcel in) {
@@ -33,6 +37,8 @@ public class WorkMan implements Parcelable {
         phoneNumber = in.readString();
         job = in.readString();
         rating = in.readDouble();
+        priceMax = in.readString();
+        priceMin = in.readString();
         score = in.readDouble();
     }
 
@@ -108,11 +114,27 @@ public class WorkMan implements Parcelable {
         return score;
     }
 
+    public String getPriceMin() {
+        return priceMin;
+    }
+
+    public void setPriceMin(String priceMin) {
+        this.priceMin = priceMin;
+    }
+
+    public String getPriceMax() {
+        return priceMax;
+    }
+
+    public void setPriceMax(String priceMax) {
+        this.priceMax = priceMax;
+    }
+
     public void setScore(Double score) {
         this.score = score;
     }
 
-    public WorkMan(String id, String email, String fullName, String address, String phoneNumber, String job, Double rating) {
+    public WorkMan(String id, String email, String fullName, String address, String phoneNumber, String job, Double rating, String priceMin, String priceMax) {
         this.id = id;
         this.email = email;
         this.fullName = fullName;
@@ -120,6 +142,8 @@ public class WorkMan implements Parcelable {
         this.phoneNumber = phoneNumber;
         this.job = job;
         this.rating = rating;
+        this.priceMin = priceMin;
+        this.priceMax = priceMax;
     }
 
     public WorkMan() {
@@ -134,12 +158,22 @@ public class WorkMan implements Parcelable {
         map.put("phoneNumber", phoneNumber);
         map.put("job", job);
         map.put("rating", rating);
+        map.put("priceMin", priceMin);
+        map.put("priceMax", priceMax);
         return map;
     }
 
     public Map<String, Object> toUpdateRating() {
         Map<String, Object> map = new HashMap<>();
         map.put("rating", rating);
+        return map;
+    }
+
+    public Map<String, Object> toUpdateAddressAndPrice() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("address", address);
+        map.put("priceMin", priceMin);
+        map.put("priceMax", priceMax);
         return map;
     }
 
@@ -165,6 +199,11 @@ public class WorkMan implements Parcelable {
         String job = (String) map.get("job");
         Object rating = (Object) map.get("rating");
 
+        String priceMin = (String) map.get("priceMin");
+        String priceMax = (String) map.get("priceMax");
+
+
+
         Double ratingDouble = 0.0;
 
         if(rating instanceof Double){
@@ -175,7 +214,7 @@ public class WorkMan implements Parcelable {
 
 //        Double doubleRating = rating.doubleValue();
         return  new WorkMan(
-                id,email,fullName,address,phoneNumber,job,ratingDouble
+                id,email,fullName,address,phoneNumber,job,ratingDouble,priceMin,priceMax
         );
 
     }
@@ -194,6 +233,12 @@ public class WorkMan implements Parcelable {
         parcel.writeString(phoneNumber);
         parcel.writeString(job);
         parcel.writeDouble(rating);
-        parcel.writeDouble(score);
+
+        if(score != null){
+            parcel.writeDouble(score);
+        }
+
+        parcel.writeString(priceMin);
+        parcel.writeString(priceMax);
     }
 }

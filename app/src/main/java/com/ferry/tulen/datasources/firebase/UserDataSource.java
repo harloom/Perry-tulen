@@ -71,6 +71,42 @@ public class UserDataSource {
 
     }
 
+    public void setWorkerAddressAndPrice(String idUser, String address, String minPrice, String maxPrice, ResultListener<Boolean> resultListener) {
+        getWorkMan(idUser, new ResultListener<WorkMainWithIdDocument>() {
+            @Override
+            public void onSuccess(WorkMainWithIdDocument result) {
+
+                /// save result
+                WriteBatch batch = db.batch();
+                DocumentReference docRef = db.collection(CollectionName.WORK_MAN).document(result.getIdDocument());
+
+                WorkMan workMan = result.getWorkMan();
+                workMan.setAddress(address);
+                workMan.setPriceMin(minPrice);
+                workMan.setPriceMax(maxPrice);
+                batch.update(docRef,workMan.toUpdateAddressAndPrice());
+
+                batch.commit().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        resultListener.onSuccess(true);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        resultListener.onError(e);
+                    }
+                });
+
+            }
+            @Override
+            public void onError(Throwable error) {
+                resultListener.onError(error);
+            }
+        });
+
+    }
+
     public void setWorkMan(String idUser, String fullName, String address, String phoneNumber, String job, ResultListener<Boolean> resultListener) {
         getWorkMan(idUser, new ResultListener<WorkMainWithIdDocument>() {
             @Override

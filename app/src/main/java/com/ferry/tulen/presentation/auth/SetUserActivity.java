@@ -70,7 +70,6 @@ public class SetUserActivity extends AppCompatActivity {
         findViewById(R.id.btnSet).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                     setUser(view);
 
             }

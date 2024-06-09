@@ -172,7 +172,12 @@ public class WorkManDataSource {
             /// update data rating ....
             int index = getIndex(workManList, entry.getKey());
             if(index != -1){
-                workManList.get(index).setScore(entry.getValue());
+                if(entry.getValue() == null ){
+                    workManList.get(index).setScore(0.0);
+                }else{
+                    workManList.get(index).setScore(entry.getValue());
+                }
+
 
                 System.out.println("debug Predicted rating for item  " +  entry.getKey() + ": " +  workManList.get(index).getFullName() + ": " + entry.getValue());
             }

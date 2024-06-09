@@ -239,9 +239,8 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
                         int resultCode = data.getIntExtra("result_code", -1);
                         if (resultCode == OrderWorkerCreateActivity.REQUEST_CODE_WORK_MAN) {
                             WorkMan workMan = (WorkMan) data.getParcelableExtra("workMan");
-                            System.out.println("debug: Workman "  + workMan.getFullName());
+                            System.out.println("debug: Workman priceMin "  + workMan.getPriceMin());
                             selectedWorkMan = workMan;
-
                             setValueWorkMan();
                         }
                     }
@@ -348,6 +347,10 @@ public class OrderWorkerCreateActivity extends AppCompatActivity {
         /// set alamat
         TextView addressTukang = findViewById(R.id.addressTukang);
         addressTukang.setText(selectedWorkMan.getAddress());
+
+        TextView rateTxtView = findViewById(R.id.rate);
+
+        rateTxtView.setText(String.format("Rp.%s - Rp.%s", selectedWorkMan.getPriceMin(), selectedWorkMan.getPriceMax()));
 
         RatingBar ratingBar =  findViewById(R.id.ratingBar);
         ratingBar.setIsIndicator(true);

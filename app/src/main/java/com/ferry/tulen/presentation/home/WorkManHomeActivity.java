@@ -22,6 +22,7 @@ import com.ferry.tulen.datasources.firebase.AuthDataSource;
 import com.ferry.tulen.datasources.listener.ResultListener;
 import com.ferry.tulen.presentation.business.OrderWorkerCreateActivity;
 import com.ferry.tulen.presentation.business.worker.WorkerListOderActivity;
+import com.ferry.tulen.presentation.profile.PriceWorkerUpdateActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -105,6 +106,14 @@ public class WorkManHomeActivity extends AppCompatActivity {
                                 .show();
                     }
                 });
+            }
+        });
+
+        findViewById(R.id.btnLihatPrice).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(WorkManHomeActivity.this, PriceWorkerUpdateActivity.class);
+                startActivity(intent);
             }
         });
 

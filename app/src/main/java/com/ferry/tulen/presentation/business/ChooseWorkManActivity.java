@@ -82,6 +82,7 @@ public class ChooseWorkManActivity extends AppCompatActivity {
         Intent resultIntent = new Intent();
         resultIntent.putExtra("result_code", OrderWorkerCreateActivity.REQUEST_CODE_WORK_MAN);
         resultIntent.putExtra("workMan",workMan);
+        System.out.println("priceMin : " + workMan.getPriceMin());
         setResult(Activity.RESULT_OK, resultIntent);
         finish();
     }
