@@ -37,8 +37,8 @@ public class WorkMan implements Parcelable {
         phoneNumber = in.readString();
         job = in.readString();
         rating = in.readDouble();
-        priceMax = in.readString();
         priceMin = in.readString();
+        priceMax = in.readString();
         score = in.readDouble();
     }
 
@@ -233,12 +233,12 @@ public class WorkMan implements Parcelable {
         parcel.writeString(phoneNumber);
         parcel.writeString(job);
         parcel.writeDouble(rating);
-
+        parcel.writeString(priceMin);
+        parcel.writeString(priceMax);
         if(score != null){
             parcel.writeDouble(score);
         }
 
-        parcel.writeString(priceMin);
-        parcel.writeString(priceMax);
+
     }
 }
